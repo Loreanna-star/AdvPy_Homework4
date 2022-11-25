@@ -1,14 +1,28 @@
-nested_list = [
-	['a', 'b', 'c'],
-	['d', 'e', 'f', 'h', False],
-	[1, 2, None],
-]
+import types
 
-def flat_generator(my_list):
-    for group in my_list:
+def flat_generator(list_of_lists):
+    for group in list_of_lists:
         for item in group:
             yield item
 
+def test_2():
+
+    list_of_lists_1 = [
+        ['a', 'b', 'c'],
+        ['d', 'e', 'f', 'h', False],
+        [1, 2, None]
+    ]
+
+    for flat_iterator_item, check_item in zip(
+            flat_generator(list_of_lists_1),
+            ['a', 'b', 'c', 'd', 'e', 'f', 'h', False, 1, 2, None]
+    ):
+
+        assert flat_iterator_item == check_item
+
+    assert list(flat_generator(list_of_lists_1)) == ['a', 'b', 'c', 'd', 'e', 'f', 'h', False, 1, 2, None]
+
+    assert isinstance(flat_generator(list_of_lists_1), types.GeneratorType)
+
 if __name__ == '__main__':
-    for item in  flat_generator(nested_list):
-	    print(item)
+    test_2()
